@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `player_vehicles` (
   `paymentamount` int(11) NOT NULL DEFAULT 0,
   `paymentsleft` int(11) NOT NULL DEFAULT 0,
   `financetime` int(11) NOT NULL DEFAULT 0,
+  `properties` longtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `plate` (`plate`),
   KEY `citizenid` (`citizenid`),

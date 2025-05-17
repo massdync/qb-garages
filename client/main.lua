@@ -62,7 +62,10 @@ local function DepositVehicle(veh, data)
             local engineDamage = math.ceil(GetVehicleEngineHealth(veh))
             local totalFuel = exports[Config.FuelResource]:GetFuel(veh)
             TriggerServerEvent('qb-mechanicjob:server:SaveVehicleProps', QBCore.Functions.GetVehicleProperties(veh))
-            TriggerServerEvent('qb-garages:server:updateVehicleStats', plate, totalFuel, engineDamage, bodyDamage)
+            
+            local vehProps = QBCore.Functions.GetVehicleProperties(veh)
+            TriggerServerEvent('qb-garages:server:updateVehicleStats', plate, totalFuel, engineDamage, bodyDamage, vehProps)
+            
             CheckPlayers(veh)
             if plate then TriggerServerEvent('qb-garages:server:UpdateOutsideVehicle', plate, nil) end
             QBCore.Functions.Notify(Lang:t('success.vehicle_parked'), 'primary', 4500)

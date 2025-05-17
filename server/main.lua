@@ -127,8 +127,14 @@ QBCore.Functions.CreateCallback('qb-garages:server:spawnvehicle', function(sourc
     local netId = NetworkGetNetworkIdFromEntity(veh)
     SetVehicleNumberPlateText(veh, plate)
     local vehProps = {}
-    local result = MySQL.rawExecute.await('SELECT mods FROM player_vehicles WHERE plate = ?', { plate })
-    if result and result[1] then vehProps = json.decode(result[1].mods) end
+    
+    --local result = MySQL.rawExecute.await('SELECT mods FROM player_vehicles WHERE plate = ?', { plate })
+    local result = MySQL.rawExecute.await('SELECT properties FROM player_vehicles WHERE plate = ?', { plate })
+    if result and result[1] then
+        --vehProps = json.decode(result[1].mods)
+        vehProps = json.decode(result[1].properties)
+    end
+    
     OutsideVehicles[plate] = { netID = netId, entity = veh }
     cb(netId, vehProps, plate)
 end)
@@ -163,11 +169,15 @@ end)
 
 -- Events
 
-RegisterNetEvent('qb-garages:server:updateVehicleStats', function(plate, fuel, engine, body)
+RegisterNetEvent('qb-garages:server:updateVehicleStats', function(plate, fuel, engine, body, properties)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    MySQL.update('UPDATE player_vehicles SET fuel = ?, engine = ?, body = ? WHERE plate = ? AND citizenid = ?', { fuel, engine, body, plate, Player.PlayerData.citizenid })
+    --MySQL.update('UPDATE player_vehicles SET fuel = ?, engine = ?, body = ? WHERE plate = ? AND citizenid = ?', { fuel, engine, body, plate, Player.PlayerData.citizenid })
+    MySQL.update(
+        'UPDATE player_vehicles SET fuel = ?, engine = ?, body = ?, properties = ? WHERE plate = ? AND citizenid = ?',
+        { fuel, engine, body, json.encode(properties), plate, Player.PlayerData.citizenid }
+    )
 end)
 
 RegisterNetEvent('qb-garages:server:updateVehicleState', function(state, plate)
