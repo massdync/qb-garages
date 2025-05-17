@@ -1,5 +1,15 @@
 # qb-garages
 
+This is a modified version of qb-garages with support of storing vehicles' properties
+
+A new column named `properties` is added into the table
+
+When a player stores their vehicle, the script will call `QBCore.Functions.GetVehicleProperties()` and store the result as json encoded string into the database
+
+When a player take their vehicle out from the garage, the script will fetch the json encoded string from the database then decode it into table, and eventually apply it to the vehicle with `QBCore.Functions.SetVehicleProperties()` 
+
+<hr>
+
 **Public Garages**
 * Park owned cars in public garages.
 * You can only parks vehicles that you own in public garages. 
