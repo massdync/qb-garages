@@ -73,8 +73,20 @@ function populateVehicleList(garageLabel, vehicles) {
         mileage.classList.add("mileage");
         mileage.textContent = `${v.distance}mi`;
         vehicleInfo.appendChild(mileage);
-
+                
         vehicleItem.appendChild(vehicleInfo);
+
+        // Image preview
+        const vehicleImageContainer = document.createElement("div");
+        vehicleImageContainer.style = "display: block; margin: 0 auto; margin-top: 20px;"
+        const vehicleImage = document.createElement("img")
+        vehicleImage.src = `https://docs.fivem.net/vehicles/${v.vehicle}.webp`
+        vehicleImage.style = "width: 200px;"
+        vehicleImageContainer.appendChild(vehicleImage)
+        
+        vehicleItem.appendChild(vehicleImageContainer)
+        //
+
 
         // Finance Info
         const financeDriveContainer = document.createElement("div");
